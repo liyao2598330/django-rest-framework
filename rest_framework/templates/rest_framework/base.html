@@ -1,0 +1,38 @@
+{% load static %}
+{% load i18n %}
+{% load rest_framework %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    {% block head %}
+
+      {% block meta %}
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta name="robots" content="NONE,NOARCHIVE" />
+      {% endblock %}
+
+      <title>{{ name }}</title>
+
+    {% endblock %}
+  </head>
+
+  {% block body %}
+  <body class="{% block bodyclass %}{% endblock %}">
+
+    <div class="content-main" role="main"  aria-label="{% trans "main content" %}">
+
+      <div class="request-info" style="clear: both" aria-label="{% trans "request info" %}">
+        <pre class="prettyprint"><b>{{ request.method }}</b> {{ request.get_full_path }}</pre>
+      </div>
+
+      <div class="response-info" aria-label="{% trans "response info" %}">
+        <pre class="prettyprint"><span class="meta nocode"><b>HTTP {{ response.status_code }} {{ response.status_text }}</b>{% for key, val in response_headers|items %}
+<b>{{ key }}:</b> <span class="lit">{{ val|break_long_headers|urlize_quoted_links }}</span>{% endfor %}
+
+</span>{{ content|urlize_quoted_links }}</pre>
+      </div>
+    </div>
+  </body>
+  {% endblock %}
+</html>
